@@ -1,0 +1,1 @@
+This text asset proves that the public SDK can validate and build a secondary Addressables catalog without private game content.

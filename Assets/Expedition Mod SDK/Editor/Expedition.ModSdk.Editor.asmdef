@@ -1,0 +1,14 @@
+{
+  "name": "Expedition.ModSdk.Editor",
+  "rootNamespace": "Expedition.ModSdk.Editor",
+  "references": [
+    "Expedition.ModApi",
+    "Unity.Addressables",
+    "Unity.Addressables.Editor",
+    "Unity.RenderPipelines.Universal.Runtime"
+  ],
+  "includePlatforms": [
+    "Editor"
+  ],
+  "autoReferenced": true
+}
