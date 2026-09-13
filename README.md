@@ -14,7 +14,7 @@
 4. Готовые пакеты находятся в `Builds/Packages/<mod-id>-<version>`.
 5. Закройте игру, выберите её `Application.persistentDataPath/Mods` и нажмите **Установить пакет**. Перезапустите игру.
 
-Обучение на Unity Tutorial API: **Tutorials > Show Tutorials Window > Expedition Mod SDK**. Шесть страниц ведут через выбор, проверку, сборку и установку; ключевые шаги проверяют реальное выполнение действий в Mod Workspace.
+Обучение на Unity Tutorial API: **Tutorials > Show Tutorials Window > Expedition Mod SDK**. Выберите **Русский** или **English**. Каждая версия содержит шесть страниц: выбор, создание и разметка ассетов, проверка, сборка, установка и проверка в игре. Ключевые шаги проверяют реальное выполнение действий в Mod Workspace.
 
 | Папка | Пакет | Содержимое |
 |---|---|---|

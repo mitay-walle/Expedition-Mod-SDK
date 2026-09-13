@@ -12,4 +12,4 @@ The game's startup loader owns discovery under persistentDataPath/Mods, dependen
 
 The test packages demonstrate real authoring and bundle transport. Their availability is not a claim that every domain has completed runtime registration or that the planned 15-action scenario has passed. Current verification limits are recorded in CreatingAMod.md.
 
-TutorialContainer, Tutorial, TutorialPage, paragraphs and criteria are authored through Unity Editor APIs. The six-page tutorial uses the existing scene and never restores/reloads it. It opens explicitly from the Tutorials menu; there is no custom auto-opening callback.
+TutorialContainer, Tutorial, TutorialPage, paragraphs and criteria are authored through Unity Editor APIs. The container offers separate Russian and English tutorials, each with six pages and the same action criteria. Both use the existing scene and never restore/reload it. It opens explicitly from the Tutorials menu; there is no custom auto-opening callback.
