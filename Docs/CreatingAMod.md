@@ -26,7 +26,7 @@ Runtime labels сохраняются в каталоге. Доменные вл
 
 Механизм внешних каталогов: [Unity — Load content catalogs](https://docs.unity3d.com/Packages/com.unity.addressables@2.11/manual/LoadContentCatalogAsync.html). Сборку контента отдельно от основного проекта описывает [Unity — Load content from multiple projects](https://docs.unity3d.com/Packages/com.unity.addressables@2.11/manual/MultiProject.html); установку в Mods и совместимость manifest проверяет сам Expedition SDK.
 
-Выход: `Builds/Packages/<modId>-<version>/mod.json` и вложенная папка платформы с catalog, hash и bundles. Перед передачей вызовите **Verify Built Bundles**. Сборка из CLI описана в README.
+Выход: `Builds/Packages/<modId>-<version>/mod.json` и вложенная папка платформы с catalog, hash и bundles. Перед передачей вызовите **Verify Built Bundles**.
 
 ## Установка
 

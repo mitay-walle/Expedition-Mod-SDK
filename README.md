@@ -25,37 +25,11 @@
 
 Это тесты авторства и реальных bundles. Сборка и загрузка всех 22 объявленных assets проверены. Полный сценарий из 15 игровых действий, размещаемые/подбираемые prefab, замены стабильных слотов и AI-моб ещё не завершены; эти пакеты не являются доказательством их runtime-поддержки. Подробности: [создание и установка](Docs/CreatingAMod.md), [архитектура](Docs/Architecture.md).
 
-## CLI
-
-Для открытого SDK:
-
-```powershell
-unity command --project-path "G:/UnityProjects/ExpeditionModSDK" menu --path "Expedition/Mod SDK/Build All Mods"
-```
-
-Для закрытого проекта/CI запустите соответствующий Unity Editor:
-
-```powershell
-& $unityEditor -batchmode -quit -projectPath $sdkProject -buildTarget StandaloneWindows64 -executeMethod Expedition.ModSdk.Editor.ModBuildCommand.BuildFromCommandLine -mod all -logFile "$sdkProject/Builds/mod-build.log"
-```
-
-`-mod sample.production` собирает один пакет; `-mod all` — весь набор. Ненулевой код выхода означает ошибку. **Verify Built Bundles** загружает объявленный контент из готовых внешних каталогов, а не через AssetDatabase, и пишет `Builds/BundleVerification.txt`.
+**Expedition > Mod SDK > Verify Built Bundles** загружает объявленный контент из готовых внешних каталогов и пишет результат в `Builds/BundleVerification.txt`.
 
 ## Шаблон проекта
 
-Используйте `Tools/pack_template.ps1`. Скрипт копирует исходные Assets/Packages/ProjectSettings в чистый staging, добавляет документацию и вызывает встроенный `unity templates pack`. Кэш открытого Editor не упаковывается. Архив: `Builds/Templates/expedition-mod-sdk-1.0.0.tgz`.
-
-```powershell
-./Tools/pack_template.ps1 -Version 1.0.0
-```
-
-Создание проекта из архива проверено штатным CLI:
-
-```powershell
-unity projects create MyMod --path "$projectsDirectory" --editor-version "$editorVersion" --template "$templateArchive"
-```
-
-В `$templateArchive` передайте абсолютный путь к `.tgz`, в `$editorVersion` — поле `unity` из `package/package.json` архива. Не задавайте `--cloud` или `--vcs`, если нужны только локальные исходники.
+Готовый архив шаблона: `Builds/Templates/expedition-mod-sdk-1.0.0.tgz`. Он содержит исходники SDK, четыре примера модов и обучение на русском и английском языках.
 
 Это переносимый Unity project template, не `.unitypackage` и не сборка игры. В `.tgz` есть `package/package.json` с точной версией Editor и `package/ProjectData~` с исходным проектом. Для ручного развёртывания извлеките ProjectData~ в новую папку и откройте её через Hub подходящей версией Unity. Сам ProjectVersion.txt штатный упаковщик удаляет; его значение сохранено в package.json. Не выбирайте произвольную другую версию Editor.
 
