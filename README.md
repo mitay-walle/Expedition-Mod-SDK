@@ -67,4 +67,4 @@ unity projects create MyMod --path "$projectsDirectory" --editor-version "$edito
 
 Перед публикацией: `Tools/audit_repository.ps1`, реальная сборка всех модов и **Verify Built Bundles**. `Builds/` исключён из Git; `.tgz` шаблона и готовые пакеты публикуются как release artifacts. Код и собственный примерный контент — MIT; лицензии Unity packages сохраняются: [THIRD_PARTY_NOTICES](THIRD_PARTY_NOTICES.md).
 
-Проверка в Survival: четыре каталога подключены, три предмета, рецепт и погодный эпизод зарегистрированы игровыми владельцами. Значки конфигураций включены в SDK. Разрешённые внешние ссылки примеров описаны в [инструкции](Docs/CreatingAMod.md).
+Проверка в Survival: четыре каталога подключены, три предмета, рецепт и погодный эпизод зарегистрированы игровыми владельцами. Разрешённые внешние ссылки примеров описаны в [инструкции](Docs/CreatingAMod.md).

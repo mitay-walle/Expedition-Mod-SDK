@@ -15,7 +15,6 @@
 | content.address | Та же запись manifest | Должен точно совпадать с Address в группе |
 | [Label](https://docs.unity3d.com/Packages/com.unity.addressables@2.11/manual/Labels.html) | Addressables Groups | Определяет, какой игровой каталог должен зарегистрировать asset |
 | [Group](https://docs.unity3d.com/Packages/com.unity.addressables@2.11/manual/Groups.html) | Addressables Groups | Определяет пакет при сборке; сама по себе не регистрирует asset в игре |
-| Значок конфигурации | Атрибут [UnityEngine.Icon](https://docs.unity3d.com/6000.0/Documentation/ScriptReference/IconAttribute.html) у типа | Только представление в Project/Inspector; не игровая иконка предмета |
 
 Пример: у Mineral.asset игровой Item Id — `myteam.survey/item/mineral`, Address и content.address — `myteam.survey/mineral.asset`, label — `Catalog.Item`, группа — `Mod_myteam.survey`. content.id можно сделать равным Address. Все ID и Address пакета начинайте с `<modId>/`; регистр символов важен. Не меняйте опубликованные игровые ID и адреса persistent prefab.
 
@@ -84,7 +83,7 @@
 | Name / Description | Localized String: собственная String Table и ключ с переводами RU/EN |
 | Category | Непустая поддерживаемая категория; в примерах `Resources` |
 | Pickup | Совместимый persistent pickup. Для текущих примеров разрешена внешняя ссылка на базовый IronMineral, указанная в CreatingAMod.md |
-| Sprite | Игровая иконка через [AssetReferenceSprite / AssetReference](https://docs.unity3d.com/Packages/com.unity.addressables@2.11/manual/AssetReferences.html); это не значок ScriptableObject. Для собственной PNG выберите Texture Type = Sprite (2D and UI), Sprite Mode = Single, Apply; добавьте её в группу/manifest как Texture |
+| Sprite | Игровая иконка через [AssetReferenceSprite / AssetReference](https://docs.unity3d.com/Packages/com.unity.addressables@2.11/manual/AssetReferences.html); Для собственной PNG выберите Texture Type = Sprite (2D and UI), Sprite Mode = Single, Apply; добавьте её в группу/manifest как Texture |
 | Shape | Размер и занятые клетки инвентаря; проверьте, что предмет помещается в целевой инвентарь |
 | Component Configs | Данные уже существующих игровых компонентов и применения; не добавляйте null-элементы |
 | Pickup Audio / Use Audio | Поддерживаемые аудиоданные; необязательные ссылки оставляйте в состоянии рабочего примера |
