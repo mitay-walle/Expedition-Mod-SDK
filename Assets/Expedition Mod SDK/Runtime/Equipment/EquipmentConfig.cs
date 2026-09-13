@@ -13,7 +13,7 @@ namespace Items
         [field: SerializeField]
         public string EquipmentSocket { get; private set; }
 
-        private EquipmentConfig()
+        public EquipmentConfig()
         {
         }
 
