@@ -25,7 +25,7 @@ MonoBehaviour:
     m_Address: sample.world/amberweather.asset
     m_ReadOnly: 0
     m_SerializedLabels:
-    - Weather
+    - Catalog.Weather
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: feeb1e500e3214d479b7a05264a493c3
     m_Address: sample.world/ambermoon.asset

@@ -6,6 +6,7 @@ namespace Interactions.Interaction
 {
 	[CreateAssetMenu(fileName = "Interact Presentation Catalog", menuName = "Expedition/Interact/Presentation Catalog")]
 	
+	[UnityEngine.Icon("Assets/Gizmos/InteractPresentation.png")]
 	[UnityEngine.Scripting.APIUpdating.MovedFrom(true, sourceAssembly: "Survival")]
 	public sealed class InteractPresentationCatalog : ScriptableObject
 	{

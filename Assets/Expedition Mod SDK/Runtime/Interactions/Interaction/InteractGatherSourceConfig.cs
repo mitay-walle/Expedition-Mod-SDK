@@ -8,6 +8,7 @@ namespace Interactions.Interaction
 {
 	[CreateAssetMenu(fileName = "Interact Gather Source", menuName = "Expedition/Interact/Gather Source")]
 	
+	[UnityEngine.Icon("Assets/Gizmos/InteractGatherSource.png")]
 	[UnityEngine.Scripting.APIUpdating.MovedFrom(true, sourceAssembly: "Survival")]
 	public sealed class InteractGatherSourceConfig : ScriptableObject
 	{

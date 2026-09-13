@@ -7,6 +7,7 @@ namespace Interactions.Interaction
 {
 	[CreateAssetMenu(fileName = "Interact Gather Result", menuName = "Expedition/Interact/Gather Result")]
 	
+	[UnityEngine.Icon("Assets/Gizmos/InteractGatherResult.png")]
 	[UnityEngine.Scripting.APIUpdating.MovedFrom(true, sourceAssembly: "Survival")]
 	public sealed class InteractGatherResultConfig : ScriptableObject
 	{

@@ -6,6 +6,7 @@ namespace Recipes
 {
 	[CreateAssetMenu(fileName = "Recipe Unlock", menuName = "Game/Recipes/Milestone Unlock")]
 	
+	[UnityEngine.Icon("Assets/Gizmos/Recipe.png")]
 	[UnityEngine.Scripting.APIUpdating.MovedFrom(true, sourceAssembly: "Survival")]
 	public sealed class MilestoneRecipeUnlockConfig : ScriptableObject
 	{

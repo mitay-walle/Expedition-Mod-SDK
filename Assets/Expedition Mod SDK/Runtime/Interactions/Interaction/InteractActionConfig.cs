@@ -6,6 +6,7 @@ namespace Interactions.Interaction
 {
 	[CreateAssetMenu(fileName = "Interact Action", menuName = "Expedition/Interact/Action")]
 	
+	[UnityEngine.Icon("Assets/Gizmos/InteractAction.png")]
 	[UnityEngine.Scripting.APIUpdating.MovedFrom(true, sourceAssembly: "Survival")]
 	public class InteractActionConfig : ScriptableObject
 	{

@@ -26,19 +26,19 @@ MonoBehaviour:
     m_Address: sample.production/restorativerecipe.asset
     m_ReadOnly: 0
     m_SerializedLabels:
-    - Recipes
+    - Catalog.Recipe
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 42ff907a5b26f7c4992ed457f3441450
     m_Address: sample.production/mineral.asset
     m_ReadOnly: 0
     m_SerializedLabels:
-    - Item
+    - Catalog.Item
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 9ae39365a477a9d4fb54f4bfd4f749ff
     m_Address: sample.production/restorative.asset
     m_ReadOnly: 0
     m_SerializedLabels:
-    - Item
+    - Catalog.Item
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: aaa1c21aafc37e44d961d21734bc941e
     m_Address: sample.production/localization/sample.production shared data.asset

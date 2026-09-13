@@ -129,6 +129,12 @@ namespace Expedition.ModSdk.Editor
             Set(item, "_itemId", modId + "/item/" + name.ToLowerInvariant()); Set(item, "_category", "Resources");
             SetLocalized(item, "_name", Text(strings, name, ru, en));
             SetLocalized(item, "_description", Text(strings, name + ".Description", "Тестовый контент SDK.", "SDK test content."));
+            // Base-game references only: no private prefab or icon is included in SDK bundles.
+            var data = new SerializedObject(item);
+            data.FindProperty("_pickup").FindPropertyRelative("m_AssetGUID").stringValue = "50657e48d704d3a4eafff44f314eec59";
+            data.FindProperty("_sprite").FindPropertyRelative("m_AssetGUID").stringValue = "2bd969b03cd9b244e8769b0ece3ed32a";
+            data.FindProperty("_sprite").FindPropertyRelative("m_SubObjectName").stringValue = "IronMineral";
+            data.ApplyModifiedPropertiesWithoutUndo();
             return item;
         }
 
@@ -188,7 +194,7 @@ namespace Expedition.ModSdk.Editor
                 if (asset is VolumeProfile) { settings.RemoveAssetEntry(guid); continue; }
                 var entry = settings.CreateOrMoveEntry(guid, group);
                 entry.SetAddress(id + "/" + Path.GetRelativePath(root + "/Content", path).Replace('\\', '/').ToLowerInvariant());
-                string label = asset switch { ItemConfig => "Item", ItemRecipeConfig => "Recipes", WeatherDefinition => "Weather", MilestoneConfig => "Milestone", ResearchSampleConfig => "ResearchSample", _ => "Mod.Example" };
+                string label = asset switch { ItemConfig => "Catalog.Item", ItemRecipeConfig => "Catalog.Recipe", WeatherDefinition => "Catalog.Weather", MilestoneConfig => "Catalog.Milestone", ResearchSampleConfig => "Catalog.Research.Sample", _ => "Mod.Example" };
                 settings.AddLabel(label); entry.SetLabel(label, true);
             }
             EditorUtility.SetDirty(group); EditorUtility.SetDirty(settings); EditorUtility.SetDirty(schema);

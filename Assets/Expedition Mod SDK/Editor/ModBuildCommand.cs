@@ -128,6 +128,10 @@ namespace Expedition.ModSdk.Editor
             var included = new Dictionary<BundledAssetGroupSchema, bool>();
             AddressablesPlayerBuildResult result;
             bool previousBuildLayout = ProjectConfigData.GenerateBuildLayout;
+            var previousScriptsNaming = settings.MonoScriptBundleNaming;
+            string previousScriptsPrefix = settings.MonoScriptBundleCustomNaming;
+            var previousBuiltInNaming = settings.BuiltInBundleNaming;
+            string previousBuiltInPrefix = settings.BuiltInBundleCustomNaming;
             AddressableAssetGroup previousDefaultGroup = settings.DefaultGroup;
             string previousId = settings.profileSettings.GetValueByName(settings.activeProfileId, ModSdkPaths.ModIdProfileVariable);
             try
@@ -141,11 +145,19 @@ namespace Expedition.ModSdk.Editor
                 }
                 settings.profileSettings.SetValue(settings.activeProfileId, ModSdkPaths.ModIdProfileVariable, manifest.modId);
                 settings.DefaultGroup = settings.FindGroup(ModSdkPaths.ContentGroupName);
+                settings.MonoScriptBundleNaming = MonoScriptBundleNaming.Custom;
+                settings.MonoScriptBundleCustomNaming = manifest.modId;
+                settings.BuiltInBundleNaming = BuiltInBundleNaming.Custom;
+                settings.BuiltInBundleCustomNaming = manifest.modId;
                 ProjectConfigData.GenerateBuildLayout = true;
                 AddressableAssetSettings.BuildPlayerContent(out result);
             }
             finally
             {
+                settings.MonoScriptBundleNaming = previousScriptsNaming;
+                settings.MonoScriptBundleCustomNaming = previousScriptsPrefix;
+                settings.BuiltInBundleNaming = previousBuiltInNaming;
+                settings.BuiltInBundleCustomNaming = previousBuiltInPrefix;
                 settings.DefaultGroup = previousDefaultGroup;
                 ProjectConfigData.GenerateBuildLayout = previousBuildLayout;
                 foreach (var entry in included) entry.Key.IncludeInBuild = entry.Value;

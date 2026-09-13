@@ -8,6 +8,7 @@ namespace Audio.Generators
 {
 	
 	[CreateAssetMenu(fileName = "ADSRClipGenerator", menuName = "Audio/Generators/ADSR Clip Generator")]
+	[UnityEngine.Icon("Assets/Scripts/Audio/Generators/Editor/Icons/ADSRClipGeneratorIcon.png")]
 	[UnityEngine.Scripting.APIUpdating.MovedFrom(true, sourceAssembly: "Survival")]
 	public class ADSRClipGenerator : ScriptableObject, IAudioGenerator
 	{

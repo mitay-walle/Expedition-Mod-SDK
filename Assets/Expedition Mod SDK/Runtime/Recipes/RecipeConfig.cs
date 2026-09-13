@@ -5,6 +5,7 @@ using UnityEngine.Localization;
 namespace Recipes
 {
 	
+	[UnityEngine.Icon("Assets/Gizmos/Recipe.png")]
 	[UnityEngine.Scripting.APIUpdating.MovedFrom(true, sourceAssembly: "Survival")]
 	public abstract class RecipeConfig : ScriptableObject
 	{

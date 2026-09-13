@@ -15,6 +15,7 @@ namespace Items
 {
 	[CreateAssetMenu(fileName = "Item", menuName = "Expedition/Items/Item Config")]
 	
+	[UnityEngine.Icon("Assets/Gizmos/Item.png")]
 	[UnityEngine.Scripting.APIUpdating.MovedFrom(true, sourceAssembly: "Survival")]
 	public sealed class ItemConfig : ScriptableObject, IHierarchyError, Peleng.IPelengMetadata
 	{

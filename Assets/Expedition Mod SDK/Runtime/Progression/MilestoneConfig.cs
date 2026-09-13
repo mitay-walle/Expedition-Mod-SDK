@@ -8,6 +8,7 @@ using UnityEngine.Localization;
 namespace Progression
 {
 	[CreateAssetMenu(fileName = "Milestone", menuName = "Game/Progression/Milestone")]
+	[UnityEngine.Icon("Assets/Gizmos/Progression.png")]
 	[UnityEngine.Scripting.APIUpdating.MovedFrom(true, sourceAssembly: "Survival")]
 	public sealed class MilestoneConfig : ScriptableObject, Peleng.IPelengMetadata
 	{

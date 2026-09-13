@@ -39,13 +39,13 @@ MonoBehaviour:
     m_Address: sample.events/mineralsample.asset
     m_ReadOnly: 0
     m_SerializedLabels:
-    - ResearchSample
+    - Catalog.Research.Sample
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 4a77ffd06ce498847932d31afbae896e
     m_Address: sample.events/mineralresearch.asset
     m_ReadOnly: 0
     m_SerializedLabels:
-    - Milestone
+    - Catalog.Milestone
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 4ae45a8c94ff91241bd7cb5644c71a24
     m_Address: sample.events/researchdialogue.asset
@@ -57,7 +57,7 @@ MonoBehaviour:
     m_Address: sample.events/sample.asset
     m_ReadOnly: 0
     m_SerializedLabels:
-    - Item
+    - Catalog.Item
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 93ed0b3b6cdac4b4b9d879e32d85e16c
     m_Address: sample.events/dialoguetiming.wav

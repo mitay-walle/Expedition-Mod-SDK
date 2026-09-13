@@ -5,6 +5,7 @@ namespace Recipes
 {
 	[CreateAssetMenu(fileName = "Recipe Fragment Set", menuName = "Game/Recipes/Fragment Set")]
 	
+	[UnityEngine.Icon("Assets/Gizmos/Recipe.png")]
 	[UnityEngine.Scripting.APIUpdating.MovedFrom(true, sourceAssembly: "Survival")]
 	public sealed class RecipeFragmentSetConfig : ScriptableObject
 	{

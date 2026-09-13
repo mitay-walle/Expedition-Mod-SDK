@@ -36,14 +36,14 @@ MonoBehaviour:
   _useAudio:
     Reference: {fileID: 0}
   _pickup:
-    m_AssetGUID: 
+    m_AssetGUID: 50657e48d704d3a4eafff44f314eec59
     m_SubObjectName: 
     m_SubObjectType: 
     m_SubObjectGUID: 
     m_EditorAssetChanged: 0
   _sprite:
-    m_AssetGUID: 
-    m_SubObjectName: 
+    m_AssetGUID: 2bd969b03cd9b244e8769b0ece3ed32a
+    m_SubObjectName: IronMineral
     m_SubObjectType: 
     m_SubObjectGUID: 
     m_EditorAssetChanged: 0

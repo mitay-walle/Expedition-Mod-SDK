@@ -1,5 +1,7 @@
 # Создание, сборка и установка мода
 
+Пошагово: [создание assets, поля Inspector, Addressables labels и manifest](AssetAuthoring.md).
+
 ## Исходники
 
 Каждый мод находится в своей папке `Assets/Mods/<Name>`. В корне лежит `mod.json`, в `Content` — его собственные assets. Общие авторские типы находятся в `Assets/Expedition Mod SDK/Runtime`, под `Expedition.ModApi.asmdef`; моды не содержат исполняемый код.
@@ -8,7 +10,7 @@
 
 Поддерживаемые kind: Data, Prefab, Texture, Material, Audio. Additive имеет пустой targetId. Replacement требует объявленного игрового слота; сама запись manifest не реализует замену в игре. Тестовые пакеты используют Additive.
 
-Runtime labels сохраняются в каталоге. Доменные владельцы игры собирают membership по labels всех загруженных locators; имя группы не определяет runtime membership. Примерные labels: Item, Recipes, Weather, Milestone, ResearchSample. Profile небесного тела и диалог пока демонстрируют авторство/десериализацию, а не автоматическое подключение их в игровой сценарий.
+Runtime labels сохраняются в каталоге. Доменные владельцы игры собирают membership по labels всех загруженных locators; имя группы не определяет runtime membership. Доменные labels: Catalog.Item, Catalog.Recipe, Catalog.Weather, Catalog.Milestone, Catalog.Research.Sample. Profile небесного тела и диалог пока демонстрируют авторство/десериализацию, а не автоматическое подключение их в игровой сценарий.
 
 ## Авторство
 
@@ -41,3 +43,11 @@ Runtime labels сохраняются в каталоге. Доменные вл
 - Установка всех пакетов и повторная идентичная установка проверены в отдельной временной папке.
 - Tutorial: 6 страниц, единый container, корректные sub-assets, сохранение текущей сцены.
 - Игровая проверка всех 15 единиц первоначального сценария в Editor/standalone, pickup/build prefab, стабильные замены и AI остаются отдельной незавершённой интеграцией.
+
+## Проверенная интеграция с Survival
+
+Все четыре каталога подключены штатным startup из persistentDataPath/Mods. В игровых владельцах подтверждены три sample-предмета, рецепт sample.production/recipe/restorative и погода sample.world/weather/amber. Это проверка регистрации, не завершение полного игрового сценария.
+
+Три тестовых предмета используют разрешённые ссылки на представление базового IronMineral: pickup GUID `50657e48d704d3a4eafff44f314eec59`, sprite GUID `2bd969b03cd9b244e8769b0ece3ed32a`, subobject `IronMineral`. Эти assets не входят в SDK или bundles модов; они разрешаются каталогом совместимой базовой игры. Предметы сохраняют собственные стабильные ID. В чистом SDK внешние ссылки не имеют локального объекта.
+
+Значки конфигураций включены как собственные PNG проекта и назначены штатным UnityEngine.Icon. Для них не нужны Odin, Base64-декодер или доступ к установленной игре. Вспомогательные MonoScripts/built-in bundles получают отдельный префикс modId, чтобы пакеты могли загружаться одновременно.

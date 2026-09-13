@@ -1,5 +1,7 @@
 # Expedition Mod SDK
 
+Пошагово: [создание assets, поля Inspector, Addressables labels и manifest](Docs/AssetAuthoring.md).
+
 Открытый Unity SDK для content-only модов Expedition. Общий API — исходники `.cs` и `Expedition.ModApi.asmdef`; игровых DLL и Odin здесь нет.
 
 Открывайте проект версией Editor из `ProjectSettings/ProjectVersion.txt`. Игра и SDK используют одинаковые версии URP и Addressables, закреплённые в `Packages/manifest.json`; фактически разрешённые версии проверяются перед сборкой. Pipeline закреплён на `0.5.0-exp.1`, совместимой с этим Editor.
@@ -64,3 +66,5 @@ unity projects create MyMod --path "$projectsDirectory" --editor-version "$edito
 Разрешены только исходники и контент репозитория и пакеты Unity Registry. Запрещены платные/приватные ассеты игры, Odin и скопированные DLL. Изображения и звук примеров созданы специально для SDK; игровые assets не копировались.
 
 Перед публикацией: `Tools/audit_repository.ps1`, реальная сборка всех модов и **Verify Built Bundles**. `Builds/` исключён из Git; `.tgz` шаблона и готовые пакеты публикуются как release artifacts. Код и собственный примерный контент — MIT; лицензии Unity packages сохраняются: [THIRD_PARTY_NOTICES](THIRD_PARTY_NOTICES.md).
+
+Проверка в Survival: четыре каталога подключены, три предмета, рецепт и погодный эпизод зарегистрированы игровыми владельцами. Значки конфигураций включены в SDK. Разрешённые внешние ссылки примеров описаны в [инструкции](Docs/CreatingAMod.md).
