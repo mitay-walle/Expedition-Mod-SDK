@@ -1,5 +1,14 @@
 {
   "dependencies": {
+    "com.codewriter.triinspector": {
+      "version": "https://github.com/codewriter-packages/Tri-Inspector.git#d07f23676b1babffa792bfc9e694e8ff269f9ac8",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {
+        "com.unity.localization": "1.0.0"
+      },
+      "hash": "d07f23676b1babffa792bfc9e694e8ff269f9ac8"
+    },
     "com.unity.addressables": {
       "version": "2.11.2",
       "depth": 0,

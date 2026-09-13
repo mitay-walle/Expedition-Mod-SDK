@@ -6,6 +6,11 @@ $manifest = Get-Content -LiteralPath $manifestPath -Raw | ConvertFrom-Json
 $errors = [System.Collections.Generic.List[string]]::new()
 
 foreach ($dependency in $manifest.dependencies.PSObject.Properties) {
+    if ($dependency.Name -eq 'com.codewriter.triinspector' -and
+        $dependency.Value -eq 'https://github.com/codewriter-packages/Tri-Inspector.git#d07f23676b1babffa792bfc9e694e8ff269f9ac8') {
+        continue
+    }
+
     if (-not $dependency.Name.StartsWith('com.unity.', [System.StringComparison]::Ordinal)) {
         $errors.Add("Non-Unity Registry dependency: $($dependency.Name)")
     }
@@ -37,4 +42,4 @@ if ($errors.Count -gt 0) {
     exit 1
 }
 
-Write-Host '[Mod SDK Audit] Passed: Unity Registry dependencies only; no tracked DLL, unitypackage, tgz, or Assets/Plugins content.'
+Write-Host '[Mod SDK Audit] Passed: Unity Registry and pinned TriInspector dependencies only; no tracked DLL, unitypackage, tgz, or Assets/Plugins content.'
