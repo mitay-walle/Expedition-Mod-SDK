@@ -24,6 +24,8 @@ Runtime labels сохраняются в каталоге. Доменные вл
 
 **Expedition > Mod SDK > Mod Workspace** → выберите мод → **Проверить** → **Собрать мод**. **Собрать все моды** выпускает четыре отдельных пакета. Build owner один: ModBuildCommand. Он включает только группу выбранного мода, временно делает её основной для служебных bundles, использует `expedition-mod://<modId>/...` и восстанавливает настройки групп после сборки.
 
+Механизм внешних каталогов: [Unity — Load content catalogs](https://docs.unity3d.com/Packages/com.unity.addressables@2.11/manual/LoadContentCatalogAsync.html). Сборку контента отдельно от основного проекта описывает [Unity — Load content from multiple projects](https://docs.unity3d.com/Packages/com.unity.addressables@2.11/manual/MultiProject.html); установку в Mods и совместимость manifest проверяет сам Expedition SDK.
+
 Выход: `Builds/Packages/<modId>-<version>/mod.json` и вложенная папка платформы с catalog, hash и bundles. Перед передачей вызовите **Verify Built Bundles**. Сборка из CLI описана в README.
 
 ## Установка

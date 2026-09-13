@@ -1,6 +1,6 @@
 # Expedition Mod SDK
 
-Пошагово: [создание assets, поля Inspector, Addressables labels и manifest](Docs/AssetAuthoring.md).
+Пошагово: [создание assets, разметка и ссылки на официальную документацию Unity](Docs/AssetAuthoring.md).
 
 Открытый Unity SDK для content-only модов Expedition. Общий API — исходники `.cs` и `Expedition.ModApi.asmdef`; игровых DLL и Odin здесь нет.
 

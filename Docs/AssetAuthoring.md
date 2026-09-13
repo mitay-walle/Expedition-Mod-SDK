@@ -2,6 +2,8 @@
 
 Эта инструкция относится к исходному проекту SDK. Готовую папку Builds/Packages устанавливают в игру; исходные `.asset`, `.cs` и `.meta` туда не копируют. Версию Unity берите из ProjectSettings/ProjectVersion.txt.
 
+Ссылки ниже ведут на официальные руководства Unity: Addressables 2.11, Localization 1.5 и общие API Unity 6. Точные версии проекта по-прежнему задаются ProjectVersion.txt и Packages/manifest.json. Имена `Catalog.*`, игровые ID, формат `mod.json` и папка Mods — контракт Expedition SDK, а не встроенные соглашения Unity.
+
 ## Что означает каждая метка
 
 | Значение | Где задаётся | Для чего нужно |
@@ -11,15 +13,17 @@
 | Address | Addressables Groups | Ключ загрузки конкретного asset из каталога |
 | content.id | Запись content в mod.json | Уникальная запись контента пакета; это не автоматическая установка игрового ID в конфигурации |
 | content.address | Та же запись manifest | Должен точно совпадать с Address в группе |
-| Label | Addressables Groups | Определяет, какой игровой каталог должен зарегистрировать asset |
-| Group | Addressables Groups | Определяет пакет при сборке; сама по себе не регистрирует asset в игре |
-| Значок конфигурации | Атрибут UnityEngine.Icon у типа | Только представление в Project/Inspector; не игровая иконка предмета |
+| [Label](https://docs.unity3d.com/Packages/com.unity.addressables@2.11/manual/Labels.html) | Addressables Groups | Определяет, какой игровой каталог должен зарегистрировать asset |
+| [Group](https://docs.unity3d.com/Packages/com.unity.addressables@2.11/manual/Groups.html) | Addressables Groups | Определяет пакет при сборке; сама по себе не регистрирует asset в игре |
+| Значок конфигурации | Атрибут [UnityEngine.Icon](https://docs.unity3d.com/6000.0/Documentation/ScriptReference/IconAttribute.html) у типа | Только представление в Project/Inspector; не игровая иконка предмета |
 
 Пример: у Mineral.asset игровой Item Id — `myteam.survey/item/mineral`, Address и content.address — `myteam.survey/mineral.asset`, label — `Catalog.Item`, группа — `Mod_myteam.survey`. content.id можно сделать равным Address. Все ID и Address пакета начинайте с `<modId>/`; регистр символов важен. Не меняйте опубликованные игровые ID и адреса persistent prefab.
 
 Не используйте GameObject Tag, Asset Label внизу Inspector или имя файла вместо **Addressables Label**. Labels `Item`, `Recipes`, `Weather` и произвольный `Mod.Example` не заменяют доменные `Catalog.*`.
 
 ## Создать asset в существующем моде
+
+Механизм конфигураций описан в [ScriptableObject](https://docs.unity3d.com/6000.0/Documentation/Manual/class-ScriptableObject.html); пункты меню Create задаются атрибутом [CreateAssetMenu](https://docs.unity3d.com/6000.0/Documentation/ScriptReference/CreateAssetMenuAttribute.html). В SDK уже есть нужные типы, поэтому для создания их экземпляров новый C#-скрипт не требуется.
 
 1. В Project откройте `Assets/Mods/<Name>/Content`. Для первого опыта используйте Production.
 2. Создайте конфигурацию через контекстное меню **Create** из таблицы ниже. Либо продублируйте подходящий пример **внутри того же мода** через Duplicate: Unity выдаст новый GUID и сохранит авторские значения.
@@ -80,12 +84,12 @@
 | Name / Description | Localized String: собственная String Table и ключ с переводами RU/EN |
 | Category | Непустая поддерживаемая категория; в примерах `Resources` |
 | Pickup | Совместимый persistent pickup. Для текущих примеров разрешена внешняя ссылка на базовый IronMineral, указанная в CreatingAMod.md |
-| Sprite | Игровая иконка через AssetReferenceSprite; это не значок ScriptableObject. Для собственной PNG выберите Texture Type = Sprite (2D and UI), Sprite Mode = Single, Apply; добавьте её в группу/manifest как Texture |
+| Sprite | Игровая иконка через [AssetReferenceSprite / AssetReference](https://docs.unity3d.com/Packages/com.unity.addressables@2.11/manual/AssetReferences.html); это не значок ScriptableObject. Для собственной PNG выберите Texture Type = Sprite (2D and UI), Sprite Mode = Single, Apply; добавьте её в группу/manifest как Texture |
 | Shape | Размер и занятые клетки инвентаря; проверьте, что предмет помещается в целевой инвентарь |
 | Component Configs | Данные уже существующих игровых компонентов и применения; не добавляйте null-элементы |
 | Pickup Audio / Use Audio | Поддерживаемые аудиоданные; необязательные ссылки оставляйте в состоянии рабочего примера |
 
-У Restorative уже сохранён полиморфный ValueChangeConfig с изменением Health. Чтобы получить другой расходник, дублируйте его внутри Production, измените ID, локализацию и значения существующего элемента. Обычный Inspector пока не обеспечивает полноценный выбор всех новых `[SerializeReference]`-типов: увеличение Size с null-элементом не создаёт поведение. Экипировка и инструменты используют ItemConfig с соответствующими вложенными конфигурациями; создание готового нового инструмента в SDK ещё требует завершения авторских инструментов.
+У Restorative уже сохранён полиморфный ValueChangeConfig с изменением Health. Чтобы получить другой расходник, дублируйте его внутри Production, измените ID, локализацию и значения существующего элемента. Обычный Inspector SDK пока не обеспечивает полноценный выбор всех новых [SerializeReference](https://docs.unity3d.com/6000.0/Documentation/ScriptReference/SerializeReference.html)-типов: увеличение Size с null-элементом не создаёт поведение. Экипировка и инструменты используют ItemConfig с соответствующими вложенными конфигурациями; создание готового нового инструмента в SDK ещё требует завершения авторских инструментов.
 
 Ссылки на базовый pickup и sprite могут выглядеть пустыми в чистом SDK, потому что их assets находятся только в игре. Это явно разрешённые внешние GUID из инструкции, а не повод копировать игровые prefab/платные картинки в SDK. Произвольные GUID из приватного проекта не являются поддерживаемым API.
 
@@ -109,17 +113,21 @@
 
 ## Локализация и зависимости
 
+Официальные руководства: [String Tables — коллекции, ключи и таблицы локалей](https://docs.unity3d.com/Packages/com.unity.localization@1.5/manual/StringTables.html), [LocalizedString — ссылка на таблицу и запись](https://docs.unity3d.com/Packages/com.unity.localization@1.5/api/UnityEngine.Localization.LocalizedString.html).
+
 1. Откройте **Window > Asset Management > Localization Tables**. Создайте String Table Collection с уникальным именем для своего мода; используйте имеющиеся локали ru и en.
 2. Сохраните коллекцию и таблицы в `Content/Localization` своего пакета. Добавьте ключи и оба перевода. В Localized String выбирайте таблицу и ключ, не вставляйте отображаемый текст вместо ссылки.
 3. В группу мода включите RU-таблицу, EN-таблицу и Shared Table Data. Каждую внесите в content manifest как Data с собственным Address. Сам редакторский StringTableCollection.asset в bundle не включайте.
 4. Сохраните автоматически назначенные Localization labels. Не переименовывайте их в Catalog.Item и не удаляйте при переносе таблиц в группу мода. Подготовка перед сборкой возвращает объявленные таблицы из автоматически созданных Unity групп к владельцу-моду.
 5. Проверьте отображение через текущий игровой UI на обоих языках. Загрузка StringTable из bundle сама по себе не доказывает работу всех LocalizedString.
 
-Обычная прямая ссылка на материал, AudioClip или VolumeProfile внутри того же мода включит dependency в bundle. Такую зависимость не обязательно объявлять отдельной Addressable-записью. AssetReference, напротив, должен разрешаться через каталог: свой целевой asset добавьте явно, для базового используйте только разрешённую ссылку. Не включайте VolumeProfile примера отдельным Addressable: его sub-assets могут дать несколько Object locations на одном ключе и нарушить проверку «один address — один asset».
+Обычная прямая ссылка на материал, AudioClip или VolumeProfile внутри того же мода включит dependency в bundle; правила включения и дублирования описаны в [Asset dependencies](https://docs.unity3d.com/Packages/com.unity.addressables@2.11/manual/AssetDependencies.html). Такую зависимость не обязательно объявлять отдельной Addressable-записью. AssetReference, напротив, должен разрешаться через каталог: свой целевой asset добавьте явно, для базового используйте только разрешённую ссылку. Не включайте VolumeProfile примера отдельным Addressable: его sub-assets могут дать несколько Object locations на одном ключе и нарушить проверку «один address — один asset».
 
 Не перетаскивайте ItemConfig из другого мод-пакета в Result/Ingredients. Прямые межпакетные Unity-ссылки запрещены валидатором. Запись dependencies задаёт порядок и минимальную версию пакета, но не превращает Object-поле в ссылку по стабильному ID. Если соответствующая семья не поддерживает внешние ID, держите связанные assets в одном моде.
 
 ## Создать собственный пакет
+
+Unity описывает сборку контента в отдельном проекте в [Load content from multiple projects](https://docs.unity3d.com/Packages/com.unity.addressables@2.11/manual/MultiProject.html). Приведённый ниже manifest и команда Configure Project относятся к Expedition SDK.
 
 В Project создайте `Assets/Mods/Survey/Content`. Для минимального первого пакета положите туда собственный `readme.txt`, а рядом с Content создайте текстовый `mod.json`:
 
