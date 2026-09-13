@@ -5,7 +5,12 @@
     "Expedition.ModApi",
     "Unity.Addressables",
     "Unity.Addressables.Editor",
-    "Unity.RenderPipelines.Universal.Runtime"
+    "Unity.RenderPipelines.Universal.Runtime",
+    "Unity.Tutorials.Editor",
+    "Unity.Localization",
+    "Unity.Localization.Editor",
+    "Unity.RenderPipelines.Core.Runtime",
+    "Unity.ResourceManager"
   ],
   "includePlatforms": [
     "Editor"

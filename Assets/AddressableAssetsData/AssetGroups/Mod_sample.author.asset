@@ -1,0 +1,53 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Mod_sample.author
+  m_EditorClassIdentifier: Unity.Addressables.Editor::UnityEditor.AddressableAssets.Settings.AddressableAssetGroup
+  m_GroupName: Mod_sample.author
+  m_GUID: 1bb757a438903cf4fadfd17c006d9122
+  m_SerializeEntries:
+  - m_GUID: 3cd6be52bd9906f4987b811d92ca65e9
+    m_Address: sample.author/footstepprofile.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Mod.Example
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 89b03a8a9d330f34d8fe19b5fd822c77
+    m_Address: sample.author/footsteplayers.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Mod.Example
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a6d4e26670afeee47be55f7887ec7f76
+    m_Address: sample.author/surveyicon.png
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Mod.Example
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bbf841d08bcacde479c23c73313a201c
+    m_Address: sample.author/footstep.wav
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Mod.Example
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ce9c2caff5b9d4e47a1d2acf2dfc2828
+    m_Address: sample.author/additive/sample-text
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Mod.Example
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: c792d31b2f7cc8643a9dd04dbef407dc, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 18738d42fa2fa7a4eaff89ceb6172c5f, type: 2}
+    - {fileID: 11400000, guid: da6cb40993949d545ad82a3cf9ebe202, type: 2}

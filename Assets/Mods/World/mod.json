@@ -1,0 +1,38 @@
+{
+    "schemaVersion": "2",
+    "apiVersion": "",
+    "unityVersion": "",
+    "addressablesVersion": "",
+    "renderPipelineVersion": "",
+    "buildTarget": "",
+    "modId": "sample.world",
+    "version": "0.1.0",
+    "displayName": "Окружение / Environment",
+    "description": "SDK authoring and bundle transport example. Gameplay verification is tracked separately.",
+    "minimumGameVersion": "0.1.0",
+    "catalog": "",
+    "dependencies": [],
+    "content": [
+        {
+            "id": "sample.world/ambermoon.asset",
+            "address": "sample.world/ambermoon.asset",
+            "kind": "Data",
+            "mode": "Additive",
+            "targetId": ""
+        },
+        {
+            "id": "sample.world/ambermoon.png",
+            "address": "sample.world/ambermoon.png",
+            "kind": "Texture",
+            "mode": "Additive",
+            "targetId": ""
+        },
+        {
+            "id": "sample.world/amberweather.asset",
+            "address": "sample.world/amberweather.asset",
+            "kind": "Data",
+            "mode": "Additive",
+            "targetId": ""
+        }
+    ]
+}

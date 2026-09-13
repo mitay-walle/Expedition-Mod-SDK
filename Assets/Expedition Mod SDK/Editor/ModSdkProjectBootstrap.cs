@@ -15,20 +15,29 @@ namespace Expedition.ModSdk.Editor
         [MenuItem("Expedition/Mod SDK/Configure Project")]
         public static void Configure()
         {
-            ModManifest manifest = ModProjectValidator.LoadManifest();
-            ModProjectValidator.ValidateManifest(manifest);
-
-            AddressableAssetSettings settings = AddressableAssetSettingsDefaultObject.GetSettings(true);
-            ConfigureProfile(settings, manifest.modId);
-            ConfigureCatalog(settings);
-            AddressableAssetGroup group = ConfigureContentGroup(settings);
-            ConfigureSampleContent(settings, group, manifest.content[0].address);
+            foreach (string root in ModBuildCommand.DiscoverMods())
+            {
+                ModSdkPaths.SelectedModRoot = root;
+                ModManifest manifest = ModProjectValidator.LoadManifest();
+                ModProjectValidator.ValidateManifest(manifest);
+                AddressableAssetSettings settings = AddressableAssetSettingsDefaultObject.GetSettings(true);
+                ConfigureProfile(settings, manifest.modId);
+                ConfigureCatalog(settings);
+                AddressableAssetGroup group = ConfigureContentGroup(settings);
+                foreach (ModContentEntry content in manifest.content)
+                {
+                    string path = content.address == "sample.author/additive/sample-text"
+                        ? root + "/Content/sample-additive.txt"
+                        : root + "/Content/" + content.address.Substring(manifest.modId.Length + 1);
+                    string guid = AssetDatabase.AssetPathToGUID(path);
+                    if (string.IsNullOrEmpty(guid)) throw new InvalidOperationException("Cannot resolve source asset: " + path);
+                    settings.CreateOrMoveEntry(guid, group).SetAddress(content.address);
+                }
+                EditorUtility.SetDirty(settings);
+            }
             ConfigureRenderPipeline();
-
-            EditorUtility.SetDirty(settings);
             AssetDatabase.SaveAssets();
-            AssetDatabase.Refresh();
-            Debug.Log($"[Mod SDK] Configured project modId={manifest.modId} group='{ModSdkPaths.ContentGroupName}'.");
+            Debug.Log("[Mod SDK] Addressables paths and groups configured for existing manifests.");
         }
 
         public static void ConfigureFromCommandLine()

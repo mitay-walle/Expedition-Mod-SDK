@@ -1,0 +1,52 @@
+{
+    "schemaVersion": "2",
+    "apiVersion": "",
+    "unityVersion": "",
+    "addressablesVersion": "",
+    "renderPipelineVersion": "",
+    "buildTarget": "",
+    "modId": "sample.author",
+    "version": "0.1.0",
+    "displayName": "Данные и оформление / Data and presentation",
+    "description": "SDK authoring and bundle transport example. Gameplay verification is tracked separately.",
+    "minimumGameVersion": "0.1.0",
+    "catalog": "",
+    "dependencies": [],
+    "content": [
+        {
+            "id": "sample.author/additive/sample-text",
+            "address": "sample.author/additive/sample-text",
+            "kind": "Data",
+            "mode": "Additive",
+            "targetId": ""
+        },
+        {
+            "id": "sample.author/footstep.wav",
+            "address": "sample.author/footstep.wav",
+            "kind": "Audio",
+            "mode": "Additive",
+            "targetId": ""
+        },
+        {
+            "id": "sample.author/footsteplayers.asset",
+            "address": "sample.author/footsteplayers.asset",
+            "kind": "Data",
+            "mode": "Additive",
+            "targetId": ""
+        },
+        {
+            "id": "sample.author/footstepprofile.asset",
+            "address": "sample.author/footstepprofile.asset",
+            "kind": "Data",
+            "mode": "Additive",
+            "targetId": ""
+        },
+        {
+            "id": "sample.author/surveyicon.png",
+            "address": "sample.author/surveyicon.png",
+            "kind": "Texture",
+            "mode": "Additive",
+            "targetId": ""
+        }
+    ]
+}

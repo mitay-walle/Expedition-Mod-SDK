@@ -1,38 +1,15 @@
 # Architecture
 
-## Scope
+Expedition.ModApi is a source-built assembly shared by the game and the SDK. Public configuration sources and necessary authoring data live in `Assets/Expedition Mod SDK/Runtime`; no game DLLs, Odin, private gameplay assets or paid plugins are distributed. Gameplay services, DI, object management and action execution remain in the game.
 
-The first version supports content-only mods. It does not execute mod assemblies or patch game code.
+Each source mod lives under `Assets/Mods/<Name>` with its own manifest and Content folder. Each output package has its own schema-2 manifest, catalog, hash and bundles. Unity, Addressables, URP, public API and Windows x64 must match the game. ProjectVersion.txt owns the Editor version; package manifests pin dependencies, and builds check resolved Addressables/URP versions against ModContract.
 
-Each built mod contains:
+ModProjectValidator validates authoring inputs, IDs, versions, entry membership and references between source mod folders. ModBuildCommand alone owns compilation and packaging. Before validation/build it restores explicitly declared localization tables to the selected mod group and manifest addresses, because Unity Localization reassigns them on a fresh collection import; localization labels remain intact. During each build it includes only the selected content group, makes it the default for shared script/shader bundles, then restores the authoring settings. Paths remain `expedition-mod://<mod-id>/...`; no SDK-local Library paths should be required by the distributed package.
 
-- a validated `mod.json`;
-- one Addressables secondary catalog and hash;
-- the AssetBundles referenced by that catalog.
+ModPackageValidation validates package contracts and dependency ordering. ModPackageInstaller copies a validated package into an explicitly selected game Mods folder and verifies identical bytes; it refuses conflicting installations. ModPackageVerifier tests actual external catalog locations and releases its assets/catalog handles.
 
-The SDK writes catalog and bundle internal IDs with the `expedition-mod://<mod-id>/...` scheme. The game owns one Addressables `InternalIdTransformFunc` that maps this scheme to the installed mod directory before it loads the catalog.
+The game's startup loader owns discovery under persistentDataPath/Mods, dependency checks, path remapping and external catalogs. Domain services own registration, stable replacement slots, localization, save compatibility and asset-handle lifetimes. Membership comes from labels across all loaded locators. The mod set is fixed until restart.
 
-Catalogs are loaded once during startup. Addressables 2.11 does not expose catalog unloading, so enabling or disabling mods requires a restart.
+The test packages demonstrate real authoring and bundle transport. Their availability is not a claim that every domain has completed runtime registration or that the planned 15-action scenario has passed. Current verification limits are recorded in CreatingAMod.md.
 
-## Compatibility boundary
-
-Build content with the exact Unity editor, Addressables, render pipeline, and public API versions used by the game. A mod package records its minimum game version; the future game-side loader must validate it before loading the catalog.
-
-The public API assembly is intentionally small and source-built. Private gameplay assemblies are not an SDK contract. If a later content type needs game serialization, expose the smallest stable type in `Expedition.ModApi` and publish a new SDK version.
-
-Do not ship:
-
-- full game DLLs;
-- Player-stripped DLLs;
-- .NET reference assemblies used as Unity runtime substitutes;
-- paid plugin assemblies or editor tooling;
-- private game art, audio, scenes, prefabs, or ScriptableObjects.
-
-## Ownership
-
-- `ModProjectValidator` owns manifest and Addressables mapping validation.
-- `ModBuildCommand` owns the build and package output.
-- `ModSdkProjectBootstrap` only creates the committed Addressables authoring setup when explicitly invoked.
-- The game-side loader will own discovery, dependency ordering, ID conflict policy, path remapping, and catalog loading.
-
-The build command fails when setup is missing; it does not add fallback configuration or silently repair state.
+TutorialContainer, Tutorial, TutorialPage, paragraphs and criteria are authored through Unity Editor APIs. The six-page tutorial uses the existing scene and never restores/reloads it. It opens explicitly from the Tutorials menu; there is no custom auto-opening callback.

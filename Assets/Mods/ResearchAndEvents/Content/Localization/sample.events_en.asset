@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: sample.events_en
+  m_EditorClassIdentifier: Unity.Localization::UnityEngine.Localization.Tables.StringTable
+  m_LocaleId:
+    m_Code: en
+  m_SharedData: {fileID: 11400000, guid: 2d2a33c04ff59154c9de2e1563b00b5b, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 338681856
+    m_Localized: Mineral sample
+    m_Metadata:
+      m_Items: []
+  - m_Id: 376430592
+    m_Localized: SDK test content.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 527425536
+    m_Localized: Mineral research
+    m_Metadata:
+      m_Items: []
+  - m_Id: 682614784
+    m_Localized: Submit the sample to the scientist for analysis.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 825221120
+    m_Localized: You brought the sample? Let's begin the analysis.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 829415424
+    m_Localized: The results will help prepare the next experiment.
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []

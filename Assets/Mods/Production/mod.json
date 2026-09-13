@@ -1,0 +1,59 @@
+{
+    "schemaVersion": "2",
+    "apiVersion": "",
+    "unityVersion": "",
+    "addressablesVersion": "",
+    "renderPipelineVersion": "",
+    "buildTarget": "",
+    "modId": "sample.production",
+    "version": "0.1.0",
+    "displayName": "Предметы и производство / Items and production",
+    "description": "SDK authoring and bundle transport example. Gameplay verification is tracked separately.",
+    "minimumGameVersion": "0.1.0",
+    "catalog": "",
+    "dependencies": [],
+    "content": [
+        {
+            "id": "sample.production/localization/sample.production shared data.asset",
+            "address": "sample.production/localization/sample.production shared data.asset",
+            "kind": "Data",
+            "mode": "Additive",
+            "targetId": ""
+        },
+        {
+            "id": "sample.production/localization/sample.production_en.asset",
+            "address": "sample.production/localization/sample.production_en.asset",
+            "kind": "Data",
+            "mode": "Additive",
+            "targetId": ""
+        },
+        {
+            "id": "sample.production/localization/sample.production_ru.asset",
+            "address": "sample.production/localization/sample.production_ru.asset",
+            "kind": "Data",
+            "mode": "Additive",
+            "targetId": ""
+        },
+        {
+            "id": "sample.production/mineral.asset",
+            "address": "sample.production/mineral.asset",
+            "kind": "Data",
+            "mode": "Additive",
+            "targetId": ""
+        },
+        {
+            "id": "sample.production/restorative.asset",
+            "address": "sample.production/restorative.asset",
+            "kind": "Data",
+            "mode": "Additive",
+            "targetId": ""
+        },
+        {
+            "id": "sample.production/restorativerecipe.asset",
+            "address": "sample.production/restorativerecipe.asset",
+            "kind": "Data",
+            "mode": "Additive",
+            "targetId": ""
+        }
+    ]
+}

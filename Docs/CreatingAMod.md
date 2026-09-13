@@ -1,64 +1,43 @@
-# Creating a mod
+# Создание, сборка и установка мода
 
-## Manifest
+## Исходники
 
-Edit `Assets/Expedition Mod SDK/Mod/mod.json`:
+Каждый мод находится в своей папке `Assets/Mods/<Name>`. В корне лежит `mod.json`, в `Content` — его собственные assets. Общие авторские типы находятся в `Assets/Expedition Mod SDK/Runtime`, под `Expedition.ModApi.asmdef`; моды не содержат исполняемый код.
 
-```json
-{
-  "schemaVersion": "1",
-  "modId": "sample.author",
-  "version": "0.1.0",
-  "displayName": "Sample Author Mod",
-  "description": "A minimal additive-content example.",
-  "minimumGameVersion": "0.1.0",
-  "catalog": "",
-  "dependencies": [],
-  "content": [
-    {
-      "id": "sample.author/additive/sample-text",
-      "address": "sample.author/additive/sample-text",
-      "kind": "Data",
-      "mode": "Additive",
-      "targetId": ""
-    }
-  ]
-}
-```
+`mod.json` использует schemaVersion `2`, уникальный `modId`, версию `major.minor.patch`, minimumGameVersion, dependencies и content. Исходный `catalog` пуст; сборщик записывает итоговые версии API/Editor/Addressables/URP, target и путь каталога. `id` и `address` каждой записи начинаются с `<modId>/`. После публикации не меняйте стабильные ID контента, который участвует в сохранениях.
 
-Rules:
+Поддерживаемые kind: Data, Prefab, Texture, Material, Audio. Additive имеет пустой targetId. Replacement требует объявленного игрового слота; сама запись manifest не реализует замену в игре. Тестовые пакеты используют Additive.
 
-- `schemaVersion` is currently `1`.
-- `modId` is a globally unique reverse-domain-style ID made from lowercase letters, digits, dots, and hyphens.
-- `version` and `minimumGameVersion` use `major.minor.patch`.
-- `catalog` is generated during the build; leave it empty in the source manifest.
-- Every `content.id` and `content.address` must be unique and namespaced by `modId`.
-- Supported `kind` values are `Prefab`, `Data`, `Texture`, `Material`, and `Audio`.
-- Supported `mode` values are `Additive` and `Replacement`.
-- `targetId` must be empty for additive content.
-- Replacement content must use `targetId` to name one unique, stable, game-owned extension point; it is not an arbitrary asset path.
+Runtime labels сохраняются в каталоге. Доменные владельцы игры собирают membership по labels всех загруженных locators; имя группы не определяет runtime membership. Примерные labels: Item, Recipes, Weather, Milestone, ResearchSample. Profile небесного тела и диалог пока демонстрируют авторство/десериализацию, а не автоматическое подключение их в игровой сценарий.
 
-## Addressables content
+## Авторство
 
-Put mod assets under `Assets/Expedition Mod SDK/Mod/Content`. In `Window > Asset Management > Addressables > Groups`, move them into `Expedition Mod Content` and set their addresses to match the manifest.
+Редактируйте assets обычным Inspector. У расходника уже сохранён ValueChangeConfig, меняющий Health. Рецепт использует подтверждённый базовый ID станции `Crafting/FieldPrinter`. Профили Volume — зависимости погоды, а не отдельные записи Addressables. В мод-пакете не должно быть ссылок на приватные игровые assets или прямых Unity-ссылок в соседний мод: такой asset иначе незаметно попадёт в bundle. Межпакетные связи требуют поддерживаемого доменом стабильного ID и записи dependencies.
 
-Do not mark folders Addressable. Declare concrete assets so validation can prove exactly what ships.
+Добавьте публичный asset в группу `Mod_<modId>` и назначьте адрес из manifest. Сохраните доменные и локализационные labels. Пример sample.author сохраняет исходный проверочный адрес `sample.author/additive/sample-text`.
 
-## Validate and build
+Для новой семьи конфигураций одного доступного типа в Inspector недостаточно: отдельно нужны регистрация у игрового владельца, локализация, сохранение, жизненный цикл handle и игровая проверка. В SDK ещё не завершён весь набор инструментов для создания новых полиморфных элементов; имеющиеся элементы можно редактировать.
 
-`Validate Mod` checks the manifest, IDs, versions, supported values, Addressables settings, and the one-to-one mapping between declared content and the owned Addressables group.
+## Сборка
 
-`Build Mod` runs the same validation first, builds the remote catalog and bundles, copies them into one installable folder, and writes the final catalog path into the packaged `mod.json`.
+**Expedition > Mod SDK > Mod Workspace** → выберите мод → **Проверить** → **Собрать мод**. **Собрать все моды** выпускает четыре отдельных пакета. Build owner один: ModBuildCommand. Он включает только группу выбранного мода, временно делает её основной для служебных bundles, использует `expedition-mod://<modId>/...` и восстанавливает настройки групп после сборки.
 
-## Dependencies
+Выход: `Builds/Packages/<modId>-<version>/mod.json` и вложенная папка платформы с catalog, hash и bundles. Перед передачей вызовите **Verify Built Bundles**. Сборка из CLI описана в README.
 
-Dependencies describe other mods, not Unity packages:
+## Установка
 
-```json
-{
-  "modId": "another.author",
-  "minimumVersion": "1.2.0"
-}
-```
+1. Закройте игру. Моды фиксируются при запуске; горячего переключения нет.
+2. Найдите `Application.persistentDataPath/Mods` игры. Для текущего Survival_2024 на Windows обычно `%USERPROFILE%/AppData/LocalLow/DefaultCompany/Survival_2024/Mods`; это зависит от Company/Product игры.
+3. Выберите эту папку в Mod Workspace и нажмите **Установить пакет**. Либо вручную скопируйте целиком папку `<modId>-<version>` из Builds/Packages.
+4. Установите зависимости до зависящего мода. Не оставляйте одновременно две версии одного modId. Для обновления закройте игру, удалите только папку старой версии и установите новую.
+5. Перезапустите игру. Проверьте загрузку каталога и реальный игровой эффект. Успешная проверка копирования не означает прохождение сценария в игре.
 
-The game-side loader must reject missing or incompatible dependencies before loading catalogs.
+Установщик не перезаписывает другую установленную версию. Идентичная повторная установка ничего не меняет. Он проверяет версии, зависимости, конфликты, catalog/hash/bundles и сверяет содержимое после копирования. Совместимость проверяется с текущим контрактом SDK и версией игры 0.1.0; это не автоматическое определение версии произвольного exe.
+
+## Статус проверки
+
+- Все 4 пакета собираются настоящим Addressables BuildPlayerContent для Windows x64.
+- Загрузка каждого из 22 объявленных assets проверена по locations внешнего каталога из готовых bundles. Ожидаемый TextAsset прочитан.
+- Установка всех пакетов и повторная идентичная установка проверены в отдельной временной папке.
+- Tutorial: 6 страниц, единый container, корректные sub-assets, сохранение текущей сцены.
+- Игровая проверка всех 15 единиц первоначального сценария в Editor/standalone, pickup/build prefab, стабильные замены и AI остаются отдельной незавершённой интеграцией.

@@ -1,0 +1,62 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 735a5a10cd3deb84da8ddd560721ca10, type: 3}
+  m_Name: Mineral
+  m_EditorClassIdentifier: Expedition.ModApi::Items.ItemConfig
+  _itemId: sample.production/item/mineral
+  _name:
+    m_TableReference:
+      m_TableCollectionName: GUID:aaa1c21aafc37e44d961d21734bc941e
+    m_TableEntryReference:
+      m_KeyId: 0
+      m_Key: Mineral
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  _description:
+    m_TableReference:
+      m_TableCollectionName: GUID:aaa1c21aafc37e44d961d21734bc941e
+    m_TableEntryReference:
+      m_KeyId: 0
+      m_Key: Mineral.Description
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  _category: Resources
+  _pickupAudio: []
+  _useAudio:
+    Reference: {fileID: 0}
+  _pickup:
+    m_AssetGUID: 
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_SubObjectGUID: 
+    m_EditorAssetChanged: 0
+  _sprite:
+    m_AssetGUID: 
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_SubObjectGUID: 
+    m_EditorAssetChanged: 0
+  _shape:
+    _size: {x: 2, y: 2}
+    _readable: 0
+    _data: 
+    _bitArray:
+      data1: 18446744073709551615
+      data2: 18446744073709551615
+      data3: 18446744073709551615
+      data4: 18446744073709551615
+  _componentConfigs: []
+  references:
+    version: 2
+    RefIds: []

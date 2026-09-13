@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text.RegularExpressions;
 using Expedition.ModApi;
+using UnityEditor;
 using UnityEditor.AddressableAssets;
 using UnityEditor.AddressableAssets.Settings;
 using UnityEngine;
@@ -13,6 +15,13 @@ namespace Expedition.ModSdk.Editor
     {
         public static ModManifest LoadAndValidate()
         {
+            string expectedEditor = File.ReadLines(Path.Combine(ModSdkPaths.ProjectRoot, "ProjectSettings/ProjectVersion.txt"))
+                .First(line => line.StartsWith("m_EditorVersion:", StringComparison.Ordinal)).Split(':')[1].Trim();
+            Require(Application.unityVersion == expectedEditor, "Open the SDK with the Editor recorded in ProjectVersion.txt.");
+            Require(UnityEditor.PackageManager.PackageInfo.FindForAssembly(typeof(UnityEngine.AddressableAssets.Addressables).Assembly).version == ModContract.AddressablesVersion,
+                "Addressables version differs from the public API contract.");
+            Require(UnityEditor.PackageManager.PackageInfo.FindForAssembly(typeof(UnityEngine.Rendering.Universal.UniversalRenderPipeline).Assembly).version == ModContract.RenderPipelineVersion,
+                "URP version differs from the public API contract.");
             ModManifest manifest = LoadManifest();
             ValidateManifest(manifest);
             ValidateAddressables(manifest);
@@ -84,6 +93,13 @@ namespace Expedition.ModSdk.Editor
             foreach (AddressableAssetEntry groupEntry in group.entries)
             {
                 Require(groupEntry != null, $"Group '{ModSdkPaths.ContentGroupName}' contains a missing entry.");
+                string assetPath = AssetDatabase.GUIDToAssetPath(groupEntry.guid);
+                Require(assetPath.StartsWith(ModSdkPaths.SelectedModRoot + "/", StringComparison.Ordinal),
+                    $"Asset '{assetPath}' is outside the selected mod folder.");
+                foreach (string dependency in AssetDatabase.GetDependencies(assetPath, true))
+                    Require(!dependency.StartsWith(ModSdkPaths.ModsRoot + "/", StringComparison.Ordinal) ||
+                            dependency.StartsWith(ModSdkPaths.SelectedModRoot + "/", StringComparison.Ordinal),
+                        $"Direct reference to another mod asset '{dependency}'. Use a stable content ID and declare the package dependency.");
                 Require(groupAddresses.Add(groupEntry.address),
                     $"Addressables address '{groupEntry.address}' occurs more than once in the content group.");
             }
@@ -114,7 +130,7 @@ namespace Expedition.ModSdk.Editor
 
         private static bool IsValidVersion(string value) =>
             !string.IsNullOrWhiteSpace(value) &&
-            Regex.IsMatch(value, "^[0-9]+\\.[0-9]+\\.[0-9]+(?:[-+][0-9A-Za-z.-]+)?$", RegexOptions.CultureInvariant);
+            Regex.IsMatch(value, "^[0-9]+\\.[0-9]+\\.[0-9]+$", RegexOptions.CultureInvariant);
 
         private static bool IsNamespaced(string value, string modId) =>
             !string.IsNullOrWhiteSpace(value) && value.StartsWith(modId + "/", StringComparison.Ordinal);

@@ -7,6 +7,8 @@ using UnityEditor;
 using UnityEditor.AddressableAssets;
 using UnityEditor.AddressableAssets.Build;
 using UnityEditor.AddressableAssets.Settings;
+using UnityEditor.AddressableAssets.Settings.GroupSchemas;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Expedition.ModSdk.Editor
@@ -16,9 +18,9 @@ namespace Expedition.ModSdk.Editor
         [MenuItem("Expedition/Mod SDK/Validate Mod")]
         public static void ValidateFromMenu()
         {
-            ModManifest manifest = ModProjectValidator.LoadAndValidate();
+            ModManifest manifest = PrepareAndValidate();
             Debug.Log($"[Mod SDK] Validation passed modId={manifest.modId} version={manifest.version} content={manifest.content.Count}.");
-            EditorUtility.DisplayDialog("Expedition Mod SDK", "Mod validation passed.", "OK");
+
         }
 
         [MenuItem("Expedition/Mod SDK/Build Mod")]
@@ -26,14 +28,24 @@ namespace Expedition.ModSdk.Editor
         {
             string packagePath = Build();
             EditorUtility.RevealInFinder(packagePath);
-            EditorUtility.DisplayDialog("Expedition Mod SDK", $"Mod built successfully:\n{packagePath}", "OK");
+
         }
 
         public static void BuildFromCommandLine()
         {
             try
             {
-                Build();
+                string[] arguments = Environment.GetCommandLineArgs();
+                int index = Array.IndexOf(arguments, "-mod");
+                if (index >= 0 && index + 1 < arguments.Length && arguments[index + 1] != "all")
+                {
+                    string id = arguments[index + 1];
+                    string root = DiscoverMods().Single(path =>
+                        JsonUtility.FromJson<ModManifest>(File.ReadAllText(Path.Combine(path, "mod.json"))).modId == id);
+                    ModSdkPaths.SelectedModRoot = root;
+                    Build();
+                }
+                else BuildAll();
                 EditorApplication.Exit(0);
             }
             catch (Exception exception)
@@ -43,15 +55,103 @@ namespace Expedition.ModSdk.Editor
             }
         }
 
-        private static string Build()
+        [MenuItem("Expedition/Mod SDK/Export API")]
+        public static void ExportApi()
+        {
+            string output = Path.Combine(ModSdkPaths.BuildsRoot, "Expedition.ModApi.unitypackage");
+            Directory.CreateDirectory(ModSdkPaths.BuildsRoot);
+            AssetDatabase.ExportPackage("Assets/Expedition Mod SDK/Runtime", output, ExportPackageOptions.Recurse);
+            Debug.Log($"[Mod SDK] Exported API {ModContract.ApiVersion} to '{output}'.");
+        }
+
+        public static string[] DiscoverMods()
+        {
+            if (!Directory.Exists(ModSdkPaths.ModsRoot)) return Array.Empty<string>();
+            return Directory.GetDirectories(ModSdkPaths.ModsRoot)
+                .Where(path => File.Exists(Path.Combine(path, "mod.json")))
+                .Select(path => path.Replace('\\', '/')).OrderBy(path => path, StringComparer.Ordinal).ToArray();
+        }
+
+        [MenuItem("Expedition/Mod SDK/Build All Mods")]
+        public static void BuildAllFromMenu() => Debug.Log(string.Join("\n", BuildAll()));
+
+        public static string[] BuildAll()
+        {
+            string previous = ModSdkPaths.SelectedModRoot;
+            var outputs = new List<string>();
+            try
+            {
+                foreach (string root in DiscoverMods())
+                {
+                    ModSdkPaths.SelectedModRoot = root;
+                    outputs.Add(Build());
+                }
+                if (outputs.Count == 0) throw new InvalidOperationException("No mods found under Assets/Mods.");
+                ModPackageValidation.ValidateAndOrder(outputs.Select(path => new ModPackage(path,
+                    JsonUtility.FromJson<ModManifest>(File.ReadAllText(Path.Combine(path, "mod.json"))))), "0.1.0", Application.unityVersion);
+                return outputs.ToArray();
+            }
+            finally { ModSdkPaths.SelectedModRoot = previous; }
+        }
+
+        public static ModManifest PrepareAndValidate()
+        {
+            ModManifest manifest = ModProjectValidator.LoadManifest();
+            ModProjectValidator.ValidateManifest(manifest);
+            AddressableAssetSettings settings = AddressableAssetSettingsDefaultObject.Settings;
+            AddressableAssetGroup group = settings.FindGroup(ModSdkPaths.ContentGroupName);
+            if (group == null) throw new InvalidOperationException("Configure the mod Addressables group first.");
+            // Localization reassigns groups and addresses when importing a collection into a clean project.
+            foreach (ModContentEntry content in manifest.content)
+            {
+                string prefix = manifest.modId + "/";
+                if (!content.address.StartsWith(prefix, StringComparison.Ordinal)) continue;
+                string path = ModSdkPaths.SelectedModRoot + "/Content/" + content.address.Substring(prefix.Length);
+                UnityEngine.Object asset = AssetDatabase.LoadMainAssetAtPath(path);
+                if (!(asset is UnityEngine.Localization.Tables.LocalizationTable) &&
+                    !(asset is UnityEngine.Localization.Tables.SharedTableData)) continue;
+                string guid = AssetDatabase.AssetPathToGUID(path);
+                var entry = settings.CreateOrMoveEntry(guid, group);
+                entry.SetAddress(content.address);
+            }
+            EditorUtility.SetDirty(group);
+            AssetDatabase.SaveAssets();
+            return ModProjectValidator.LoadAndValidate();
+        }
+
+        public static string Build()
         {
             RequireWindowsBuildTarget();
-            ModManifest manifest = ModProjectValidator.LoadAndValidate();
+            ModManifest manifest = PrepareAndValidate();
             AddressableAssetSettings settings = AddressableAssetSettingsDefaultObject.Settings;
-            settings.profileSettings.SetValue(settings.activeProfileId, ModSdkPaths.ModIdProfileVariable, manifest.modId);
-
             RecreateOwnedDirectory(ModSdkPaths.StagingRoot);
-            AddressableAssetSettings.BuildPlayerContent(out AddressablesPlayerBuildResult result);
+            var included = new Dictionary<BundledAssetGroupSchema, bool>();
+            AddressablesPlayerBuildResult result;
+            bool previousBuildLayout = ProjectConfigData.GenerateBuildLayout;
+            AddressableAssetGroup previousDefaultGroup = settings.DefaultGroup;
+            string previousId = settings.profileSettings.GetValueByName(settings.activeProfileId, ModSdkPaths.ModIdProfileVariable);
+            try
+            {
+                foreach (AddressableAssetGroup group in settings.groups.Where(group => group != null))
+                {
+                    BundledAssetGroupSchema schema = group.GetSchema<BundledAssetGroupSchema>();
+                    if (schema == null) continue;
+                    included.Add(schema, schema.IncludeInBuild);
+                    schema.IncludeInBuild = group.Name == ModSdkPaths.ContentGroupName;
+                }
+                settings.profileSettings.SetValue(settings.activeProfileId, ModSdkPaths.ModIdProfileVariable, manifest.modId);
+                settings.DefaultGroup = settings.FindGroup(ModSdkPaths.ContentGroupName);
+                ProjectConfigData.GenerateBuildLayout = true;
+                AddressableAssetSettings.BuildPlayerContent(out result);
+            }
+            finally
+            {
+                settings.DefaultGroup = previousDefaultGroup;
+                ProjectConfigData.GenerateBuildLayout = previousBuildLayout;
+                foreach (var entry in included) entry.Key.IncludeInBuild = entry.Value;
+                settings.profileSettings.SetValue(settings.activeProfileId, ModSdkPaths.ModIdProfileVariable, previousId);
+                AssetDatabase.SaveAssets();
+            }
             if (!string.IsNullOrWhiteSpace(result.Error))
                 throw new InvalidOperationException($"Addressables build failed: {result.Error}");
 
@@ -60,6 +160,11 @@ namespace Expedition.ModSdk.Editor
             RecreateOwnedDirectory(packagePath);
             CopyDirectory(ModSdkPaths.StagingRoot, packagePath);
 
+            manifest.apiVersion = ModContract.ApiVersion;
+            manifest.unityVersion = Application.unityVersion;
+            manifest.addressablesVersion = UnityEditor.PackageManager.PackageInfo.FindForAssembly(typeof(UnityEngine.AddressableAssets.Addressables).Assembly).version;
+            manifest.renderPipelineVersion = UnityEditor.PackageManager.PackageInfo.FindForAssembly(typeof(UnityEngine.Rendering.Universal.UniversalRenderPipeline).Assembly).version;
+            manifest.buildTarget = EditorUserBuildSettings.activeBuildTarget.ToString();
             manifest.catalog = Path.GetRelativePath(ModSdkPaths.StagingRoot, catalogPath).Replace('\\', '/');
             File.WriteAllText(Path.Combine(packagePath, "mod.json"), JsonUtility.ToJson(manifest, true) + "\n",
                 new UTF8Encoding(false));

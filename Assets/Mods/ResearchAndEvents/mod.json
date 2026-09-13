@@ -1,0 +1,73 @@
+{
+    "schemaVersion": "2",
+    "apiVersion": "",
+    "unityVersion": "",
+    "addressablesVersion": "",
+    "renderPipelineVersion": "",
+    "buildTarget": "",
+    "modId": "sample.events",
+    "version": "0.1.0",
+    "displayName": "Исследование и диалог / Research and dialogue",
+    "description": "SDK authoring and bundle transport example. Gameplay verification is tracked separately.",
+    "minimumGameVersion": "0.1.0",
+    "catalog": "",
+    "dependencies": [],
+    "content": [
+        {
+            "id": "sample.events/dialoguetiming.wav",
+            "address": "sample.events/dialoguetiming.wav",
+            "kind": "Audio",
+            "mode": "Additive",
+            "targetId": ""
+        },
+        {
+            "id": "sample.events/localization/sample.events shared data.asset",
+            "address": "sample.events/localization/sample.events shared data.asset",
+            "kind": "Data",
+            "mode": "Additive",
+            "targetId": ""
+        },
+        {
+            "id": "sample.events/localization/sample.events_en.asset",
+            "address": "sample.events/localization/sample.events_en.asset",
+            "kind": "Data",
+            "mode": "Additive",
+            "targetId": ""
+        },
+        {
+            "id": "sample.events/localization/sample.events_ru.asset",
+            "address": "sample.events/localization/sample.events_ru.asset",
+            "kind": "Data",
+            "mode": "Additive",
+            "targetId": ""
+        },
+        {
+            "id": "sample.events/mineralresearch.asset",
+            "address": "sample.events/mineralresearch.asset",
+            "kind": "Data",
+            "mode": "Additive",
+            "targetId": ""
+        },
+        {
+            "id": "sample.events/mineralsample.asset",
+            "address": "sample.events/mineralsample.asset",
+            "kind": "Data",
+            "mode": "Additive",
+            "targetId": ""
+        },
+        {
+            "id": "sample.events/researchdialogue.asset",
+            "address": "sample.events/researchdialogue.asset",
+            "kind": "Data",
+            "mode": "Additive",
+            "targetId": ""
+        },
+        {
+            "id": "sample.events/sample.asset",
+            "address": "sample.events/sample.asset",
+            "kind": "Data",
+            "mode": "Additive",
+            "targetId": ""
+        }
+    ]
+}

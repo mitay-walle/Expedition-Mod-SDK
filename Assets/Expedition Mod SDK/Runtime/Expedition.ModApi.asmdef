@@ -1,5 +1,15 @@
 {
   "name": "Expedition.ModApi",
   "rootNamespace": "Expedition.ModApi",
-  "autoReferenced": true
+  "autoReferenced": true,
+  "references": [
+    "Unity.Addressables",
+    "Unity.ResourceManager",
+    "Unity.Localization",
+    "Unity.RenderPipelines.Core.Runtime",
+    "Unity.RenderPipelines.Universal.Runtime",
+    "Unity.Timeline",
+    "Unity.Collections",
+    "Unity.Mathematics"
+  ]
 }

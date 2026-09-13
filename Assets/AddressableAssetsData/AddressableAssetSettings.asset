@@ -15,7 +15,7 @@ MonoBehaviour:
   m_DefaultGroup: 1d8b3e7e67c7243408c7f6402c1d6f38
   m_currentHash:
     serializedVersion: 2
-    Hash: 521a4ad9d8a10099e3fbba41e03be8fb
+    Hash: 00000000000000000000000000000000
   m_ExtractTypeTreeData: 0
   m_DisableWriteTypeTree: 0
   m_OptimizeCatalogSize: 0
@@ -57,13 +57,21 @@ MonoBehaviour:
     m_Id: 6078adcc93802c647a49065bfcf8df4d
   m_RemoteCatalogLoadPath:
     m_Id: 184fdcd8508c766439ee77e21dd9b71f
-  m_ContentStateBuildPathProfileVariableName: 
+  m_ContentStateBuildPathProfileVariableName: <default settings path>
   m_CustomContentStateBuildPath: 
   m_ContentStateBuildPath: 
   m_BuildAddressablesWithPlayerBuild: 0
   m_overridePlayerVersion: '[UnityEditor.PlayerSettings.bundleVersion]'
   m_GroupAssets:
+  - {fileID: 11400000, guid: cb41ee82743a2584a85b87f3b07903fe, type: 2}
+  - {fileID: 11400000, guid: d88db85adc7b73d44b1602c27f5115a1, type: 2}
+  - {fileID: 11400000, guid: 901eeece3140c7f499a5ba6bc29874cd, type: 2}
   - {fileID: 11400000, guid: 80cf421c7ff7b834fb52c60467f23c12, type: 2}
+  - {fileID: 11400000, guid: f99731837224f0f40a5290f92e20e832, type: 2}
+  - {fileID: 11400000, guid: b4d9481f13828bc4cb9a5ee004c88d55, type: 2}
+  - {fileID: 11400000, guid: 50eea8e267cea124b9f41e03ad3f1207, type: 2}
+  - {fileID: 11400000, guid: ac049a862dc4261418b41f54ba1ed565, type: 2}
+  - {fileID: 11400000, guid: add18219cf842d64abe6f2a4353db9c3, type: 2}
   - {fileID: 11400000, guid: d4cd659b80b58224ca555217db8bd9c8, type: 2}
   m_BuildSettings:
     m_LogResourceManagerExceptions: 1
@@ -109,6 +117,15 @@ MonoBehaviour:
   m_LabelTable:
     m_LabelNames:
     - default
+    - Locale
+    - Mod.Example
+    - Locale-en
+    - Locale-ru
+    - Item
+    - Recipes
+    - Weather
+    - Milestone
+    - ResearchSample
   m_SchemaTemplates: []
   m_GroupTemplateObjects:
   - {fileID: 11400000, guid: 3312648f72e04954ca1cf57b92cee590, type: 2}

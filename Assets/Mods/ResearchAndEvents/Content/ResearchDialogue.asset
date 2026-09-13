@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ffcc77fd47d8b2a448009cf6dd005fdf, type: 3}
+  m_Name: ResearchDialogue
+  m_EditorClassIdentifier: Expedition.ModApi::Dialogue.DialogueConfig
+  _sourceGuid: 93ed0b3b6cdac4b4b9d879e32d85e16c
+  _audio:
+    Reference: {fileID: 8300000, guid: 93ed0b3b6cdac4b4b9d879e32d85e16c, type: 3}
+  _captions:
+  - <EntryTime>k__BackingField: 0
+    <ExitTime>k__BackingField: 4
+    <Subtitle>k__BackingField:
+      m_TableReference:
+        m_TableCollectionName: GUID:2d2a33c04ff59154c9de2e1563b00b5b
+      m_TableEntryReference:
+        m_KeyId: 0
+        m_Key: Line1
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
+  - <EntryTime>k__BackingField: 4
+    <ExitTime>k__BackingField: 8
+    <Subtitle>k__BackingField:
+      m_TableReference:
+        m_TableCollectionName: GUID:2d2a33c04ff59154c9de2e1563b00b5b
+      m_TableEntryReference:
+        m_KeyId: 0
+        m_Key: Line2
+      m_FallbackState: 0
+      m_WaitForCompletion: 0
+      m_LocalVariables: []
+  <Emotion>k__BackingField: 0
+  <EmotionDuration>k__BackingField: 3
+  references:
+    version: 2
+    RefIds: []

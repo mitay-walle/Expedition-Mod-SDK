@@ -14,12 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.Addressables.Editor::UnityEditor.AddressableAssets.Settings.AddressableAssetGroup
   m_GroupName: Expedition Mod Content
   m_GUID: fa3bec6afcb5e8645b39db0d0bb9ae2b
-  m_SerializeEntries:
-  - m_GUID: ce9c2caff5b9d4e47a1d2acf2dfc2828
-    m_Address: sample.author/additive/sample-text
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
+  m_SerializeEntries: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: c792d31b2f7cc8643a9dd04dbef407dc, type: 2}
   m_SchemaSet:

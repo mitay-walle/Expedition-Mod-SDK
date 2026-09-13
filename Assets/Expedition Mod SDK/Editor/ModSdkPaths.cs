@@ -5,11 +5,13 @@ namespace Expedition.ModSdk.Editor
 {
     internal static class ModSdkPaths
     {
-        public const string ManifestAssetPath = "Assets/Expedition Mod SDK/Mod/mod.json";
-        public const string SampleContentAssetPath = "Assets/Expedition Mod SDK/Mod/Content/sample-additive.txt";
+        public const string ModsRoot = "Assets/Mods";
+        public static string SelectedModRoot = ModsRoot + "/DataAndPresentation";
+        public static string ManifestAssetPath => SelectedModRoot + "/mod.json";
+        public static string SampleContentAssetPath => SelectedModRoot + "/Content/sample-additive.txt";
         public const string AddressablesSettingsFolder = "Assets/AddressableAssetsData";
         public const string AddressablesSettingsName = "AddressableAssetSettings";
-        public const string ContentGroupName = "Expedition Mod Content";
+        public static string ContentGroupName => "Mod_" + ModProjectValidator.LoadManifest().modId;
         public const string ModIdProfileVariable = "Mod.Id";
         public const string RenderPipelineFolder = "Assets/Expedition Mod SDK/Settings";
         public const string RendererDataAssetPath = RenderPipelineFolder + "/ExpeditionModRenderer.asset";

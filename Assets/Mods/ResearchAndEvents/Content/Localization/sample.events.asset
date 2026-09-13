@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5be51871efa6c3e4eae1703925c8f5ac, type: 3}
+  m_Name: sample.events
+  m_EditorClassIdentifier: Unity.Localization.Editor::UnityEditor.Localization.StringTableCollection
+  m_SharedTableData: {fileID: 11400000, guid: 2d2a33c04ff59154c9de2e1563b00b5b, type: 2}
+  m_Tables:
+  - {fileID: 11400000, guid: 028b8ad16c901ec448a8fa2a3980a17d, type: 2}
+  - {fileID: 11400000, guid: 02f053e8f39dc8c4d99e089d6407cd11, type: 2}
+  m_Extensions: []
+  m_Group: String Table
+  references:
+    version: 2
+    RefIds: []

@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c942ae6cfa161004fa1f778719484b76, type: 3}
+  m_Name: AmberWeather
+  m_EditorClassIdentifier: Expedition.ModApi::Game.Environment.Weather.WeatherDefinition
+  <Id>k__BackingField: sample.world/weather/amber
+  <Tags>k__BackingField: []
+  <TimelineColor>k__BackingField: {r: 0.25, g: 0.32, b: 0.38, a: 1}
+  <Weight>k__BackingField: 1
+  <HoldDuration>k__BackingField: {x: 60, y: 120}
+  <EntryDuration>k__BackingField: 5
+  <ExitDuration>k__BackingField: 5
+  <Cooldown>k__BackingField: 60
+  <Profile>k__BackingField: {fileID: 11400000, guid: 0d3e14db53ab3cd459e7ea3ece3f79bd, type: 2}
+  <Effects>k__BackingField: {fileID: 0}
+  <Entry>k__BackingField: {fileID: 0}
+  <Hold>k__BackingField: {fileID: 0}
+  <Exit>k__BackingField: {fileID: 0}
+  <RequiredMilestones>k__BackingField: []
+  <RequiredFlags>k__BackingField: []
+  <ForbiddenFlags>k__BackingField: []
+  <Events>k__BackingField: []
+  <RequestOnUnlock>k__BackingField: 0
+  <InterruptOnUnlock>k__BackingField: 0
+  <UnlockPriority>k__BackingField: 0

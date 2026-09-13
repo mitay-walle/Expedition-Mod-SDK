@@ -1,69 +1,66 @@
 # Expedition Mod SDK
 
-An open Unity project for authoring content-only mods for Expedition through Addressables secondary catalogs.
+Открытый Unity SDK для content-only модов Expedition. Общий API — исходники `.cs` и `Expedition.ModApi.asmdef`; игровых DLL и Odin здесь нет.
 
-## Status
+Открывайте проект версией Editor из `ProjectSettings/ProjectVersion.txt`. Игра и SDK используют одинаковые версии URP и Addressables, закреплённые в `Packages/manifest.json`; фактически разрешённые версии проверяются перед сборкой. Pipeline закреплён на `0.5.0-exp.1`, совместимой с этим Editor.
 
-This repository contains the authoring and build side of the mod pipeline. The matching catalog loader and public gameplay contracts still need to be integrated into the game before packages built here can be installed by players.
+## Быстрый старт
 
-Pinned compatibility:
+1. Откройте **Expedition > Mod SDK > Mod Workspace**.
+2. Выберите один из четырёх модов в `Assets/Mods`.
+3. Нажмите **Проверить**, затем **Собрать мод** или **Собрать все моды**.
+4. Готовые пакеты находятся в `Builds/Packages/<mod-id>-<version>`.
+5. Закройте игру, выберите её `Application.persistentDataPath/Mods` и нажмите **Установить пакет**. Перезапустите игру.
 
-- Unity `6000.7.0a3`
-- Addressables `2.11.1`
-- Universal Render Pipeline `17.7.0`
-- Initial target: Windows 64-bit
+Обучение на Unity Tutorial API: **Tutorials > Show Tutorials Window > Expedition Mod SDK**. Шесть страниц ведут через выбор, проверку, сборку и установку; ключевые шаги проверяют реальное выполнение действий в Mod Workspace.
 
-Use those exact versions. AssetBundles are not portable across arbitrary Unity, package, render-pipeline, or type-layout changes.
+| Папка | Пакет | Содержимое |
+|---|---|---|
+| `Assets/Mods/DataAndPresentation` | `sample.author` | TextAsset, собственная иконка, синтезированный звук и профиль шагов |
+| `Assets/Mods/Production` | `sample.production` | ресурс, расходник с существующим ValueChangeConfig, рецепт, RU/EN |
+| `Assets/Mods/World` | `sample.world` | погодная конфигурация с VolumeProfile, небесное тело с собственной текстурой |
+| `Assets/Mods/ResearchAndEvents` | `sample.events` | образец, веха исследования, диалог с RU/EN субтитрами и синтетическим звуком для проверки времени |
 
-## No paid plugins or private game files
+Это тесты авторства и реальных bundles. Сборка и загрузка всех 22 объявленных assets проверены. Полный сценарий из 15 игровых действий, размещаемые/подбираемые prefab, замены стабильных слотов и AI-моб ещё не завершены; эти пакеты не являются доказательством их runtime-поддержки. Подробности: [создание и установка](Docs/CreatingAMod.md), [архитектура](Docs/Architecture.md).
 
-The project uses Unity Registry packages only. It does not contain Odin Inspector, other paid Asset Store plugins, private Expedition assets, or copied game DLLs.
+## CLI
 
-`Expedition.ModApi.dll` is compiled from the public source in `Assets/Expedition Mod SDK/Runtime`. Do not replace it with a stripped Player assembly: managed stripping is a Player optimization and does not produce a stable authoring contract.
-
-## Create a mod
-
-1. Install Unity `6000.7.0a3` with Windows Build Support.
-2. Clone and open this project.
-3. Copy the project to a new folder for your mod, or replace the sample content in `Assets/Expedition Mod SDK/Mod/Content`.
-4. Edit `Assets/Expedition Mod SDK/Mod/mod.json`.
-5. Add assets to the `Expedition Mod Content` Addressables group and give each one the address declared in `mod.json`.
-6. Select `Expedition > Mod SDK > Validate Mod`.
-7. Select `Expedition > Mod SDK > Build Mod`.
-
-The package is written to `Builds/Packages/<mod-id>-<version>/`. Generated packages are ignored by Git.
-
-See [Creating a mod](Docs/CreatingAMod.md) for the manifest schema, [Architecture](Docs/Architecture.md) for the compatibility contract, and [References](Docs/References.md) for the research basis.
-
-## Command-line build
+Для открытого SDK:
 
 ```powershell
-$unityEditor = 'C:\Path\To\Unity\6000.7.0a3\Editor\Unity.exe'
-$project = 'C:\Path\To\ExpeditionModSDK'
-& $unityEditor `
-  -batchmode -quit `
-  -projectPath $project `
-  -buildTarget StandaloneWindows64 `
-  -executeMethod Expedition.ModSdk.Editor.ModBuildCommand.BuildFromCommandLine `
-  -logFile (Join-Path $project 'mod-build.log')
+unity command --project-path "G:/UnityProjects/ExpeditionModSDK" menu --path "Expedition/Mod SDK/Build All Mods"
 ```
 
-A non-zero Unity exit code means validation or build failed. The log uses the `[Mod SDK]` prefix.
-
-## Repository audit
-
-After Git is initialized, run:
+Для закрытого проекта/CI запустите соответствующий Unity Editor:
 
 ```powershell
-./Tools/audit_repository.ps1
+& $unityEditor -batchmode -quit -projectPath $sdkProject -buildTarget StandaloneWindows64 -executeMethod Expedition.ModSdk.Editor.ModBuildCommand.BuildFromCommandLine -mod all -logFile "$sdkProject/Builds/mod-build.log"
 ```
 
-The audit rejects tracked DLLs, Unity packages, `Assets/Plugins` content, and non-Unity package sources.
+`-mod sample.production` собирает один пакет; `-mod all` — весь набор. Ненулевой код выхода означает ошибку. **Verify Built Bundles** загружает объявленный контент из готовых внешних каталогов, а не через AssetDatabase, и пишет `Builds/BundleVerification.txt`.
 
-## Recreate the Addressables setup
+## Шаблон проекта
 
-The repository already contains its generated Addressables settings. If they are deliberately removed, run `Expedition > Mod SDK > Configure Project`. This is an explicit setup action; the build command never repairs missing settings automatically.
+Используйте `Tools/pack_template.ps1`. Скрипт копирует исходные Assets/Packages/ProjectSettings в чистый staging, добавляет документацию и вызывает встроенный `unity templates pack`. Кэш открытого Editor не упаковывается. Архив: `Builds/Templates/expedition-mod-sdk-1.0.0.tgz`.
 
-## License
+```powershell
+./Tools/pack_template.ps1 -Version 1.0.0
+```
 
-Repository-owned source and documentation are MIT licensed. Unity and Unity Registry packages retain their own licenses; see [Third-party notices](THIRD_PARTY_NOTICES.md).
+Создание проекта из архива проверено штатным CLI:
+
+```powershell
+unity projects create MyMod --path "$projectsDirectory" --editor-version "$editorVersion" --template "$templateArchive"
+```
+
+В `$templateArchive` передайте абсолютный путь к `.tgz`, в `$editorVersion` — поле `unity` из `package/package.json` архива. Не задавайте `--cloud` или `--vcs`, если нужны только локальные исходники.
+
+Это переносимый Unity project template, не `.unitypackage` и не сборка игры. В `.tgz` есть `package/package.json` с точной версией Editor и `package/ProjectData~` с исходным проектом. Для ручного развёртывания извлеките ProjectData~ в новую папку и откройте её через Hub подходящей версией Unity. Сам ProjectVersion.txt штатный упаковщик удаляет; его значение сохранено в package.json. Не выбирайте произвольную другую версию Editor.
+
+В созданном проекте инструкция также лежит в `Assets/Expedition Mod SDK/Documentation`. В исходном Git-репозитории канонические документы — README и Docs. Исходный snapshot упаковки остаётся в Builds, исключённом из Git.
+
+## Публичная публикация
+
+Разрешены только исходники и контент репозитория и пакеты Unity Registry. Запрещены платные/приватные ассеты игры, Odin и скопированные DLL. Изображения и звук примеров созданы специально для SDK; игровые assets не копировались.
+
+Перед публикацией: `Tools/audit_repository.ps1`, реальная сборка всех модов и **Verify Built Bundles**. `Builds/` исключён из Git; `.tgz` шаблона и готовые пакеты публикуются как release artifacts. Код и собственный примерный контент — MIT; лицензии Unity packages сохраняются: [THIRD_PARTY_NOTICES](THIRD_PARTY_NOTICES.md).
